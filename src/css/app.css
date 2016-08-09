@@ -31,3 +31,7 @@ html {
   max-width: 100%;
 }
 
+.selected {
+  background: lightblue;
+}
+

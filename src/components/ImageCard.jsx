@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 
-class ImageCard extends Component {
-  render() {
-    return (
-      <div className="imageCard">
-        <img src={this.props.link} />
-        <h1>{this.props.title}</h1>
-      </div>
-    );
+const ImageCard = (props) => {
+  function imageClickWrapper(e) {
+    e.preventDefault();
+    props.onClick(props.id, props.title);
   }
-}
+
+  return <img src={props.link} onClick={imageClickWrapper}/>
+};
+
 
 export default ImageCard;

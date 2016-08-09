@@ -1,7 +1,9 @@
 import React from 'react';
 import fetch from 'isomorphic-fetch';
 
+import Card from './Card.jsx';
 import ImageCard from './ImageCard.jsx';
+import Title from './Title.jsx';
 
 import styles from '../css/app.css';
 
@@ -11,7 +13,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      data: []
+      data: [],
+      selectedImage: null
     }
   };
 
@@ -20,8 +23,15 @@ class App extends React.Component {
   };
 
   render() {
+    const { selectedImage } = this.state;
+    console.info('-------- State', this.state);
+
     const childData = this.state.data.length > 0
-    ? this.state.data.map(val => <ImageCard key={ val.id } link={ val.link } title={ val.title } />)
+    ? this.state.data.map(val =>
+      <Card key={ val.id } selected={ selectedImage === val.id }>
+        <Title>{val.title}</Title>
+        <ImageCard link={ val.link } title={val.title} id={val.id} onClick={this._imageClickHandler} />
+      </Card>)
     : 'Loading...';
 
     return (
@@ -29,6 +39,15 @@ class App extends React.Component {
         { childData }
       </div>
     )
+  };
+
+  _imageClickHandler = (id, title) => {
+    console.log(`Image ${title} was clicked`);
+
+    this.setState({
+      ...this.state,
+      selectedImage: id
+    })
   };
 
   _callApi = () => {
